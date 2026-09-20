@@ -1,22 +1,21 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Download, Github, Linkedin, Sparkles } from "lucide-react";
-import heroCarPoster from "@/assets/hero-car-poster.webp";
-import { SakuraCanvas } from "@/components/SakuraCanvas";
+import samuraiPoster from "@/assets/samurai-poster.webp";
+import { MomijiLeavesCanvas } from "@/components/MomijiLeavesCanvas";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll-linked parallax & smooth section blending
+  // Scroll-linked smooth section blending (no camera zoom)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax scale & fade out as user scrolls towards next section
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.12]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.45, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  // Dissolve video background smoothly into next section on scroll
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [1, 0.4, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 70]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   return (
@@ -24,9 +23,9 @@ const HeroSection = () => {
       ref={containerRef}
       className="relative min-h-[105vh] flex items-center justify-center overflow-hidden"
     >
-      {/* ─── Animated Video & 8K Enhanced Background ─── */}
+      {/* ─── 8K Enhanced Living Animated Video (Steady Camera, Pure In-Scene Animation) ─── */}
       <motion.div
-        style={{ scale: bgScale, opacity: bgOpacity }}
+        style={{ opacity: bgOpacity }}
         className="absolute inset-0 pointer-events-none will-change-transform"
       >
         <video
@@ -34,35 +33,35 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          poster={heroCarPoster}
+          poster={samuraiPoster}
           className="w-full h-full object-cover object-center"
         >
-          <source src="/hero-car-loop.mp4" type="video/mp4" />
-          {/* Fallback to high-res poster */}
+          <source src="/samurai-loop.mp4" type="video/mp4" />
+          {/* Fallback to 8K high-res poster */}
           <img
-            src={heroCarPoster}
-            alt="BMW M-Performance in Sakura Sunset"
+            src={samuraiPoster}
+            alt="Meditating Samurai under Red Maple Tree"
             className="w-full h-full object-cover object-center"
           />
         </video>
       </motion.div>
 
       {/* ─── Seamless Multi-Stop Theme Blending Overlays ─── */}
-      {/* 1. Global ambient tone for light and dark modes */}
-      <div className="absolute inset-0 bg-background/55 dark:bg-background/65 backdrop-blur-[0.5px] pointer-events-none transition-colors duration-500" />
+      {/* 1. Global ambient tone for light and dark modes with crimson tinting */}
+      <div className="absolute inset-0 bg-background/50 dark:bg-background/60 backdrop-blur-[0.5px] pointer-events-none transition-colors duration-500" />
 
       {/* 2. Top vignette for navbar contrast */}
       <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-background/90 via-background/40 to-transparent pointer-events-none" />
 
-      {/* 3. Floating glowing accent orbs */}
+      {/* 3. Subtle ambient red & purple aura glows */}
       <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-primary/15 blur-[120px] animate-pulse-glow pointer-events-none" />
       <div
-        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-secondary/15 blur-[140px] animate-pulse-glow pointer-events-none"
+        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-red-600/10 blur-[140px] animate-pulse-glow pointer-events-none"
         style={{ animationDelay: "2s" }}
       />
 
-      {/* 4. Interactive falling Sakura petals (matching the car livery & cherry blossoms) */}
-      <SakuraCanvas />
+      {/* 4. Interactive falling Momiji (Red Japanese Maple) leaves */}
+      <MomijiLeavesCanvas />
 
       {/* 5. Deep bottom feather gradient that merges 100% seamlessly into #about section */}
       <div className="absolute bottom-0 left-0 right-0 h-64 md:h-96 bg-gradient-to-t from-background via-background/80 via-background/40 to-transparent pointer-events-none z-10" />
